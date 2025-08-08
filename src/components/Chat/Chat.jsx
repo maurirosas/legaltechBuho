@@ -17,7 +17,8 @@ export const ChatComponent = () => {
 
     try {
       const response = await sendMessage(userText);
-      const reply = response?.message?.content?.respuesta || "Respuesta no disponible";
+      const reply =
+        response?.message?.content?.respuesta || "Respuesta no disponible";
       setMessages((prev) => [...prev, { text: reply, isUser: false }]);
     } catch (err) {
       setMessages((prev) => [
