@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { SearchComponent } from "./Search";
 import { Navbar__toggleComponent } from "./Navbar__toggle";
 import { UserIconComponent } from "./UserIcon";
 import { DropdownComponent } from "./Dropdown";
+import AuthProvider from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 import {
   NavbarWrapper,
@@ -11,6 +13,7 @@ import {
 } from "../styles/Navbar.styled";
 
 export const Navbar = ({ isOpen, handleSidebarToggle }) => {
+  const { user } = useContext(AuthContext);
   const [openProfile, setOpenProfile] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -37,8 +40,12 @@ export const Navbar = ({ isOpen, handleSidebarToggle }) => {
         isOpen={isOpen}
       />
       <SearchComponent />
+      
       <UserIconComponent onClick={() => setOpenProfile((prev) => !prev)} />
-      {openProfile && <DropdownComponent ref={dropdownRef} />}
+      
+      {openProfile && (
+          <DropdownComponent ref={dropdownRef} />
+      )}
     </NavbarWrapper>
   );
 };
