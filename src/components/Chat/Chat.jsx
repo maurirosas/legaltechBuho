@@ -15,25 +15,30 @@ import {
   sendUserMessage,
 } from "../../services/chatService";
 import { AuthContext } from "../../context/AuthContext";
-
 import { callAI } from "../../services/ai";
 
 export const ChatComponent = () => {
   const { user } = useContext(AuthContext);
   const [chatId, setChatId] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [typing, setTyping] = useState(false);
   const unsubRef = useRef(null);
   const bottomRef = useRef(null);
 
-  const scrollToBottom = () =>
-    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  const scrollToBottom = () => {
+    if (!bottomRef.current) return;
+    // espera a que el último nodo exista antes de scrollear
+    requestAnimationFrame(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    });
+  };
 
-  // 👇 autoscroll siempre que cambien los mensajes
+  // autoscroll cuando cambia la cantidad de mensajes
   useLayoutEffect(() => {
     scrollToBottom();
   }, [messages.length]);
 
-  // cargar/crear chat + historial + realtime
+  // cargar/crear chat + historial + suscripción realtime
   useEffect(() => {
     if (!user?.id) return;
 
@@ -51,11 +56,16 @@ export const ChatComponent = () => {
         }))
       );
 
+      // suscribirse a inserts del chat
       unsubRef.current?.();
       unsubRef.current = subscribeMessages(id, (row) => {
-        // reconciliar si es el eco del pendiente (comparamos metadata.client_id)
         const clientId = row?.metadata?.client_id;
+
         setMessages((prev) => {
+          // evita duplicados exactos por id
+          if (row.id && prev.some((m) => m.id === row.id)) return prev;
+
+          // reconciliar con el optimista si coincide client_id
           if (clientId) {
             const i = prev.findIndex(
               (m) => m.pending && m.clientId === clientId
@@ -71,7 +81,8 @@ export const ChatComponent = () => {
               return copy;
             }
           }
-          // si no es eco o no había pendiente, lo agregamos normal
+
+          // si no es eco de un pendiente, agregar normal
           return [
             ...prev,
             {
@@ -82,6 +93,9 @@ export const ChatComponent = () => {
             },
           ];
         });
+
+        // si llegó respuesta del asistente, apaga el indicador typing
+        if (row.sender === "assistant") setTyping(false);
       });
     })();
 
@@ -95,40 +109,35 @@ export const ChatComponent = () => {
     const clientId = crypto.randomUUID();
     setMessages((prev) => [
       ...prev,
-      {
-        text: userText,
-        isUser: true,
-        pending: true,
-        clientId,
-      },
+      { text: userText, isUser: true, pending: true, clientId },
     ]);
-    scrollToBottom();
 
-    // 2) insertar en DB (cuando llegue el evento realtime, reemplazará al pendiente)
+    // 2) Insert a DB (Realtime reemplazará el pendiente)
     try {
       await sendUserMessage(chatId, user.id, userText, clientId);
     } catch (e) {
-      // si falla, marcamos error en el “pendiente”
+      // marca el pendiente con error
       setMessages((prev) =>
         prev.map((m) =>
           m.pending && m.clientId === clientId ? { ...m, error: true } : m
         )
       );
-      return;
+      return; // no sigas si no se guardó
     }
 
-    // ahora pedimos a la IA (la respuesta la insertará la función y llegará por Realtime)
+    // 3) Llamar a la IA (la función insertará 'assistant' y Realtime lo pintará)
+    setTyping(true);
     try {
       await callAI(chatId, userText);
-      // opcional: puedes mostrar un "escribiendo..." hasta que llegue el mensaje del asistente
     } catch (e) {
       console.error("AI error", e);
-      // opcional: mostrar un mensaje de error en la UI
+      setTyping(false);
+      // mensaje de sistema de fallback opcional
+      setMessages((prev) => [
+        ...prev,
+        { text: "No pude obtener respuesta del asistente.", isUser: false },
+      ]);
     }
-    // 3) aquí luego llamas a tu backend de IA y, cuando responda,
-    // insertas el mensaje del assistant (no hace falta optimista para el bot):
-    // const aiReply = await callIA(userText, history);
-    // await sendAssistantMessage(chatId, aiReply);
   };
 
   const messagesToShow = messages.length
@@ -140,8 +149,8 @@ export const ChatComponent = () => {
       <Chat__messagesComponent
         messages={messagesToShow}
         bottomRef={bottomRef}
+        typing={typing}
       />
-      <div ref={bottomRef} />
       <Chat__inputComponent onSend={handleSend} />
     </Chat>
   );

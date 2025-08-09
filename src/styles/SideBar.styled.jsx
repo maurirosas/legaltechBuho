@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const SideBar = styled.div`
-  width: ${(props) => (props.$isOpen ? "30rem" : "0px")};
+  width: ${(props) => (props.$isOpen ? "380rem" : "0px")};
   background-color: #1d1d1d;
   color: #ecf0f1;
   padding: ${({ $isOpen }) => ($isOpen ? "1.2rem 1.2rem" : "0")};
