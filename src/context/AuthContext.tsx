@@ -1,4 +1,4 @@
-import { supabase } from "../services/client.ts";
+import { supabase } from "../services/supaBaseClient.ts";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface AuthContext {
