@@ -1,9 +1,18 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+  useLayoutEffect,
+} from "react";
 import { Chat } from "../../styles/Chat.styled";
 import { Chat__messagesComponent } from "./Chat__messages";
 import { Chat__inputComponent } from "./Chat__input";
 import {
-  ensureChat, fetchMessages, subscribeMessages, sendUserMessage
+  ensureChat,
+  fetchMessages,
+  subscribeMessages,
+  sendUserMessage,
 } from "../../services/chatService";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -16,7 +25,13 @@ export const ChatComponent = () => {
   const unsubRef = useRef(null);
   const bottomRef = useRef(null);
 
-  const scrollToBottom = () => bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollToBottom = () =>
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+
+  // 👇 autoscroll siempre que cambien los mensajes
+  useLayoutEffect(() => {
+    scrollToBottom();
+  }, [messages.length]);
 
   // cargar/crear chat + historial + realtime
   useEffect(() => {
@@ -27,41 +42,46 @@ export const ChatComponent = () => {
       setChatId(id);
 
       const rows = await fetchMessages(id);
-      setMessages(rows.map(r => ({
-        id: r.id,
-        text: r.content,
-        isUser: r.sender === "user",
-        created_at: r.created_at
-      })));
-      scrollToBottom();
+      setMessages(
+        rows.map((r) => ({
+          id: r.id,
+          text: r.content,
+          isUser: r.sender === "user",
+          created_at: r.created_at,
+        }))
+      );
 
       unsubRef.current?.();
       unsubRef.current = subscribeMessages(id, (row) => {
         // reconciliar si es el eco del pendiente (comparamos metadata.client_id)
         const clientId = row?.metadata?.client_id;
-        setMessages(prev => {
+        setMessages((prev) => {
           if (clientId) {
-            const i = prev.findIndex(m => m.pending && m.clientId === clientId);
+            const i = prev.findIndex(
+              (m) => m.pending && m.clientId === clientId
+            );
             if (i !== -1) {
               const copy = [...prev];
               copy[i] = {
                 id: row.id,
                 text: row.content,
                 isUser: row.sender === "user",
-                created_at: row.created_at
+                created_at: row.created_at,
               };
               return copy;
             }
           }
           // si no es eco o no había pendiente, lo agregamos normal
-          return [...prev, {
-            id: row.id,
-            text: row.content,
-            isUser: row.sender === "user",
-            created_at: row.created_at
-          }];
+          return [
+            ...prev,
+            {
+              id: row.id,
+              text: row.content,
+              isUser: row.sender === "user",
+              created_at: row.created_at,
+            },
+          ];
         });
-        scrollToBottom();
       });
     })();
 
@@ -73,12 +93,15 @@ export const ChatComponent = () => {
 
     // 1) UI optimista
     const clientId = crypto.randomUUID();
-    setMessages(prev => [...prev, {
-      text: userText,
-      isUser: true,
-      pending: true,
-      clientId
-    }]);
+    setMessages((prev) => [
+      ...prev,
+      {
+        text: userText,
+        isUser: true,
+        pending: true,
+        clientId,
+      },
+    ]);
     scrollToBottom();
 
     // 2) insertar en DB (cuando llegue el evento realtime, reemplazará al pendiente)
@@ -86,9 +109,12 @@ export const ChatComponent = () => {
       await sendUserMessage(chatId, user.id, userText, clientId);
     } catch (e) {
       // si falla, marcamos error en el “pendiente”
-      setMessages(prev => prev.map(m =>
-        m.pending && m.clientId === clientId ? { ...m, error: true } : m
-      ));
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.pending && m.clientId === clientId ? { ...m, error: true } : m
+        )
+      );
+      return;
     }
 
     // ahora pedimos a la IA (la respuesta la insertará la función y llegará por Realtime)
@@ -111,7 +137,10 @@ export const ChatComponent = () => {
 
   return (
     <Chat>
-      <Chat__messagesComponent messages={messagesToShow} />
+      <Chat__messagesComponent
+        messages={messagesToShow}
+        bottomRef={bottomRef}
+      />
       <div ref={bottomRef} />
       <Chat__inputComponent onSend={handleSend} />
     </Chat>

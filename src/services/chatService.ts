@@ -59,13 +59,14 @@ export function subscribeMessages(
 export async function sendUserMessage(
   chatId: string,
   userId: string,
-  text: string
+  text: string,
+  clientId: string // 👈 IMPORTANTE
 ) {
   const { error } = await supabase.from("ai_messages").insert({
     chat_id: chatId,
     sender: "user",
     content: text,
-    metadata: null,
+    metadata: { client_id: clientId } // 👈 clave para reconciliar
   });
   if (error) throw error;
 }
