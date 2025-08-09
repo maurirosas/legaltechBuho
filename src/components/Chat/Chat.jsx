@@ -7,6 +7,8 @@ import {
 } from "../../services/chatService";
 import { AuthContext } from "../../context/AuthContext";
 
+import { callAI } from "../../services/ai";
+
 export const ChatComponent = () => {
   const { user } = useContext(AuthContext);
   const [chatId, setChatId] = useState(null);
@@ -89,6 +91,14 @@ export const ChatComponent = () => {
       ));
     }
 
+    // ahora pedimos a la IA (la respuesta la insertará la función y llegará por Realtime)
+    try {
+      await callAI(chatId, userText);
+      // opcional: puedes mostrar un "escribiendo..." hasta que llegue el mensaje del asistente
+    } catch (e) {
+      console.error("AI error", e);
+      // opcional: mostrar un mensaje de error en la UI
+    }
     // 3) aquí luego llamas a tu backend de IA y, cuando responda,
     // insertas el mensaje del assistant (no hace falta optimista para el bot):
     // const aiReply = await callIA(userText, history);
