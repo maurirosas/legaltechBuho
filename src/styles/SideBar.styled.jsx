@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const SideBar = styled.div`
-  width: ${(props) => (props.$isOpen ? "380rem" : "0px")};
+  width: ${(props) => (props.$isOpen ? "380px" : "0px")};
   background-color: #1d1d1d;
   color: #ecf0f1;
-  padding: ${({ $isOpen }) => ($isOpen ? "1.2rem 1.2rem" : "0")};
+  padding: ${({ $isOpen }) => ($isOpen ? "1.2rem" : "0")};
   box-shadow: ${({ $isOpen }) =>
-    $isOpen ? "2px 0 5px rgba(0, 0, 0, 0.1)" : "none"};
+      $isOpen ? "2px 0 5px rgba(0, 0, 0, 0.1)" : "none"};
   overflow: hidden;
   transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
   z-index: 1000;
@@ -15,6 +15,7 @@ const SideBar = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const SideBar__buttons = styled.div`
   height: 4rem;
   justify-content: center;
@@ -71,4 +72,4 @@ export {
   ChatHistorial__titulo,
   Pro__container,
   Pro__button,
-}; // Export the styled components
+};

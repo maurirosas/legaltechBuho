@@ -1,48 +1,86 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  SideBar,
-  SideBar__buttons,
-  SideBar__buttonAdd,
-  ChatHistorial__titulo,
-  ChatHistorial__container,
-  Pro__container,
-  Pro__button,
-  SideBar__title,
+    ChatHistorial__container,
+    ChatHistorial__titulo,
+    Pro__button,
+    Pro__container,
+    SideBar,
+    SideBar__buttons,
+    SideBar__buttonAdd,
+    SideBar__title,
 } from "../styles/SideBar.styled";
-import { ChatHistoryItem } from "./ChatHistorial"; // Asegúrate de que la ruta sea correcta
+import { ChatHistoryItem } from "./ChatHistorial";
 import { SearchComponent } from "./Search";
 import { Logo__imgComponent } from "./Logo";
 
+import { useNavigate } from "react-router-dom";
+import { getChatsByUser, createNewChat } from "../services/chatService.js";
+import { AuthContext } from "../context/AuthContext";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentMedical } from "@fortawesome/free-solid-svg-icons";
-import sideBar from "../assets/side-bar.svg";
 
 export const SideBarComponent = ({ isOpen, handleSidebarToggle }) => {
-  return (
-    <SideBar $isOpen={isOpen}>
-      <SideBar__buttons>
-        {/*<SideBar__buttonAdd>
-          <FontAwesomeIcon
-            icon={faCommentMedical}
-            style={{ color: "#ffffff" }}
-          />
-        </SideBar__buttonAdd>
-        */}
-        <Logo__imgComponent size="large" color="white" />
-        <SideBar__title>BUHO</SideBar__title>
-      </SideBar__buttons>
+    const { user } = useContext(AuthContext);
+    const [chats, setChats] = useState([]);
+    const navigate = useNavigate();
 
-      <SearchComponent />
+    useEffect(() => {
+        if (!user?.id) return;
 
-      <ChatHistorial__container>
-        <ChatHistorial__titulo>Semana pasada</ChatHistorial__titulo>
-        <ChatHistoryItem title="Resumen de Artículo N° X" />
-        <ChatHistoryItem title="Introduccion a la constitucion N.." />
-      </ChatHistorial__container>
+        getChatsByUser(user.id)
+            .then(setChats)
+            .catch((error) => {
+                console.error("Error al obtener los chats:", error);
+            });
+    }, [user]);
 
-      <Pro__container>
-        <Pro__button>Mejora tu plan</Pro__button>
-      </Pro__container>
-    </SideBar>
-  );
+    const handleNewChat = async () => {
+        try {
+            const newChat = await createNewChat(user.id); // ✅ devuelve { id, title }
+
+            setChats((prev) => [
+                { id: newChat.id, title: newChat.title },
+                ...prev,
+            ]);
+
+            navigate(`/Chat/${newChat.id}`);
+        } catch (err) {
+            console.error("Error al crear nuevo chat:", err);
+        }
+    };
+
+    return (
+        <SideBar $isOpen={isOpen}>
+            <SideBar__buttons>
+                <SideBar__buttonAdd onClick={handleNewChat}>
+                    <FontAwesomeIcon
+                        icon={faCommentMedical}
+                        style={{ color: "#ffffff" }}
+                    />
+                </SideBar__buttonAdd>
+
+                <Logo__imgComponent size="large" color="white" />
+                <SideBar__title>BUHO</SideBar__title>
+            </SideBar__buttons>
+
+            <SearchComponent />
+
+            <ChatHistorial__container>
+                <ChatHistorial__titulo>Mis conversaciones</ChatHistorial__titulo>
+
+                {chats.map((chat) => (
+                    <ChatHistoryItem
+                        key={chat.id}
+                        title={chat.title || "Chat sin título"}
+                        onClick={() => navigate(`/Chat/${chat.id}`)}
+                    />
+                ))}
+            </ChatHistorial__container>
+
+            <Pro__container>
+                <Pro__button>Mejora tu plan</Pro__button>
+            </Pro__container>
+        </SideBar>
+    );
 };
