@@ -96,7 +96,7 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
         ]);
 
         try {
-            await sendUserMessage(chatId, user.id, userText, clientId);
+            await sendUserMessage(chatId, userText, clientId);
         } catch (e) {
             setMessages((prev) =>
                 prev.map((m) =>

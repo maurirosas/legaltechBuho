@@ -1,6 +1,6 @@
 import {supabase} from "./supaBaseClient";
 
-export async function createNewChat(userId:string) {
+export async function createNewChat(userId: string) {
     const now = new Date();
     const date = now.toLocaleDateString("es-BO", {
         day: "2-digit",
@@ -61,15 +61,14 @@ export function subscribeMessages(
 
 export async function sendUserMessage(
     chatId: string,
-    userId: string,
     text: string,
-    clientId: string // 👈 IMPORTANTE
+    clientId: string
 ) {
     const {error} = await supabase.from("ai_messages").insert({
         chat_id: chatId,
         sender: "user",
         content: text,
-        metadata: {client_id: clientId} // 👈 clave para reconciliar
+        metadata: {client_id: clientId}
     });
     if (error) throw error;
 }
