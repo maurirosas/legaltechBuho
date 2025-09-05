@@ -14,6 +14,7 @@ body{
 const MainContentWrapper = styled.div`
   flex-grow: 1;
   transition: margin-left 0.3s ease-in-out;
+  width: 75%;
 `;
 
 export { GlobalStyle, MainContentWrapper };

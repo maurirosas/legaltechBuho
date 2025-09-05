@@ -17,9 +17,7 @@ interface IAppProviderProps {
   children: ReactNode;
 }
 
-const AuthProvider: React.FC<IAppProviderProps> = ({
-  children,
-}: IAppProviderProps) => {
+const AuthProvider: React.FC<IAppProviderProps> = ({ children }: IAppProviderProps) => {
   const [user, setUser] = useState<null | { id: string; email: string; avatar: string; name: string }>(null);
 
   useEffect(() => {
@@ -33,6 +31,8 @@ const AuthProvider: React.FC<IAppProviderProps> = ({
             avatar: session.user.user_metadata.avatar_url,
             name: session.user.user_metadata.full_name,
           });
+        else
+          setUser(null); // Asegurarse de limpiar user cuando no hay sesión
       }
     );
 
@@ -54,6 +54,7 @@ const AuthProvider: React.FC<IAppProviderProps> = ({
     try {
       await supabase.auth.signOut();
       setUser(null);
+      window.location.href = "/"; // Redirigir a la página principal tras logout
     } catch (error) {
       console.error("Error logging out:", error);
     }

@@ -49,6 +49,8 @@ const Chat__messages = styled.div`
   flex: 1;
   overflow-y: auto;
   min-height: 0; /* evita que crezca infinito */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 `;
 
 /* === Burbujas === */

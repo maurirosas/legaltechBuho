@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-    ChatHistorial__container,
-    ChatHistorial__titulo,
-    Pro__button,
-    Pro__container,
-    SideBar,
-    SideBar__buttons,
-    SideBar__buttonAdd,
-    SideBar__title,
+  ChatHistorial__container,
+  ChatHistorial__titulo,
+  Pro__button,
+  Pro__container,
+  SideBar,
+  SideBar__buttons,
+  SideBar__buttonAdd,
+  SideBar__title,
 } from "../styles/SideBar.styled";
 import { ChatHistoryItem } from "./ChatHistorial";
 import { SearchComponent } from "./Search";
 import { Logo__imgComponent } from "./Logo";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getChatsByUser, createNewChat } from "../services/chatService.js";
 import { AuthContext } from "../context/AuthContext";
 
@@ -21,66 +21,63 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentMedical } from "@fortawesome/free-solid-svg-icons";
 
 export const SideBarComponent = ({ isOpen, handleSidebarToggle }) => {
-    const { user } = useContext(AuthContext);
-    const [chats, setChats] = useState([]);
-    const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const [chats, setChats] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    useEffect(() => {
-        if (!user?.id) return;
+  useEffect(() => {
+    if (!user?.id) return;
 
-        getChatsByUser(user.id)
-            .then(setChats)
-            .catch((error) => {
-                console.error("Error al obtener los chats:", error);
-            });
-    }, [user]);
+    getChatsByUser(user.id)
+      .then(setChats)
+      .catch((error) => {
+        console.error("Error al obtener los chats:", error);
+      });
+  }, [user]);
 
-    const handleNewChat = async () => {
-        try {
-            const newChat = await createNewChat(user.id); // ✅ devuelve { id, title }
+  const handleNewChat = async () => {
+    try {
+      const newChat = await createNewChat(user.id);
+      setChats((prev) => [{ id: newChat.id, title: newChat.title }, ...prev]);
+      navigate(`/Chat/${newChat.id}`);
+    } catch (err) {
+      console.error("Error al crear nuevo chat:", err);
+    }
+  };
 
-            setChats((prev) => [
-                { id: newChat.id, title: newChat.title },
-                ...prev,
-            ]);
+  return (
+    <SideBar $isOpen={isOpen}>
+      <SideBar__buttons>
+        <SideBar__buttonAdd onClick={handleNewChat}>
+          <FontAwesomeIcon
+            icon={faCommentMedical}
+            style={{ color: "#ffffff" }}
+          />
+        </SideBar__buttonAdd>
 
-            navigate(`/Chat/${newChat.id}`);
-        } catch (err) {
-            console.error("Error al crear nuevo chat:", err);
-        }
-    };
+        <Logo__imgComponent size="large" color="white" />
+        <SideBar__title>BUHO</SideBar__title>
+      </SideBar__buttons>
 
-    return (
-        <SideBar $isOpen={isOpen}>
-            <SideBar__buttons>
-                <SideBar__buttonAdd onClick={handleNewChat}>
-                    <FontAwesomeIcon
-                        icon={faCommentMedical}
-                        style={{ color: "#ffffff" }}
-                    />
-                </SideBar__buttonAdd>
+      <SearchComponent />
 
-                <Logo__imgComponent size="large" color="white" />
-                <SideBar__title>BUHO</SideBar__title>
-            </SideBar__buttons>
+      <ChatHistorial__container>
+        <ChatHistorial__titulo>Mis conversaciones</ChatHistorial__titulo>
 
-            <SearchComponent />
+        {chats.map((chat) => (
+          <ChatHistoryItem
+            key={chat.id}
+            title={chat.title || "Chat sin título"}
+            onClick={() => navigate(`/Chat/${chat.id}`)}
+            isActive={location.pathname === `/Chat/${chat.id}`} // Indica si es el chat activo
+          />
+        ))}
+      </ChatHistorial__container>
 
-            <ChatHistorial__container>
-                <ChatHistorial__titulo>Mis conversaciones</ChatHistorial__titulo>
-
-                {chats.map((chat) => (
-                    <ChatHistoryItem
-                        key={chat.id}
-                        title={chat.title || "Chat sin título"}
-                        onClick={() => navigate(`/Chat/${chat.id}`)}
-                    />
-                ))}
-            </ChatHistorial__container>
-
-            <Pro__container>
-                <Pro__button>Mejora tu plan</Pro__button>
-            </Pro__container>
-        </SideBar>
-    );
+      <Pro__container>
+        <Pro__button>Mejora tu plan</Pro__button>
+      </Pro__container>
+    </SideBar>
+  );
 };

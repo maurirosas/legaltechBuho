@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const ChatHistorial__item = styled.div`
-  background-color: rgb(53, 154, 151);
+  background-color: ${(props) => (props.$isActive ? "rgba(32, 95, 93, 1);" : "rgb(53, 154, 151);")}; // Color cuando está activo
   padding: 0.4rem 0.75rem;
   height: 2rem;
   line-height: 1.25rem;
@@ -22,6 +22,11 @@ const ChatHistorial__item = styled.div`
 `;
 
 
-export const ChatHistoryItem = ({ title, onClick }) => {
-  return <ChatHistorial__item onClick={onClick}>{title}</ChatHistorial__item>;
+export const ChatHistoryItem = ({ title, onClick, isActive }) => {
+  return <ChatHistorial__item 
+          onClick={onClick}
+          $isActive={isActive} // Pasa el estado activo a los estilos
+        >
+            {title}
+          </ChatHistorial__item>;
 };
