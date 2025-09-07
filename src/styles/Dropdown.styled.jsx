@@ -18,7 +18,8 @@ export const Dropdown__list = styled.li`
   flex-direction: column;
 `;
 export const Dropdown__item = styled.ul`
-  cursor: pointer;
-  &:hover {
-  }
+    cursor: pointer;
+
+    &:hover {
+    }
 `;

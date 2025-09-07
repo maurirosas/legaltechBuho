@@ -1,20 +1,19 @@
-import { createGlobalStyle } from "styled-components";
-import styled from "styled-components";
+import styled, {createGlobalStyle} from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-body{
-    background: #e3e3e3;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    
+    body {
+        background: #e3e3e3;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+
     }`;
 
 const MainContentWrapper = styled.div`
-  flex-grow: 1;
-  transition: margin-left 0.3s ease-in-out;
-  width: 75%;
+    flex-grow: 1;
+    transition: margin-left 0.3s ease-in-out;
+    width: 75%;
 `;
 
-export { GlobalStyle, MainContentWrapper };
+export {GlobalStyle, MainContentWrapper};

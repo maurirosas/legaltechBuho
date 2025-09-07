@@ -27,7 +27,7 @@ const SideBar__buttons = styled.div`
 const SideBar__buttonAdd = styled.a`
   text-decoration: none;
   font-size: 24px;
-  cursor: not-allowed;
+  cursor: pointer;
 `;
 
 const ChatHistorial__container = styled.div`

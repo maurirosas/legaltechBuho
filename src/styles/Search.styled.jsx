@@ -21,20 +21,20 @@ export const Search__input = styled.input`
 `;
 
 export const Search__button = styled.button`
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  svg {
-    color: #FFFFF;
-    font-size: 18px;
-  }
+    svg {
+        color: #FFFFF;
+        font-size: 18px;
+    }
 
-  &:hover svg {
-    color: black;
-  }
+    &:hover svg {
+        color: black;
+    }
 `;

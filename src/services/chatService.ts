@@ -1,4 +1,4 @@
-import { supabase } from "./supaBaseClient";
+import {supabase} from "./supaBaseClient";
 
 export async function createNewChat(userId: string) {
     const now = new Date();
@@ -15,9 +15,9 @@ export async function createNewChat(userId: string) {
 
     const title = `Conversación - ${date} ${time}`;
 
-    const { data, error } = await supabase
+    const {data, error} = await supabase
         .from("ai_chats")
-        .insert({ user_id: userId, title })
+        .insert({user_id: userId, title})
         .select("id, title")
         .single();
 
@@ -26,11 +26,11 @@ export async function createNewChat(userId: string) {
 }
 
 export async function fetchMessages(chatId: string, limit = 100) {
-    const { data, error } = await supabase
+    const {data, error} = await supabase
         .from("ai_messages")
         .select("id, sender, content, created_at")
         .eq("chat_id", chatId)
-        .order("created_at", { ascending: true })
+        .order("created_at", {ascending: true})
         .limit(limit);
 
     if (error) throw error;
@@ -55,7 +55,7 @@ export function subscribeMessages(
             (payload) => onInsert(payload.new)
         )
         .subscribe();
-    console.log("Channel state after subscribe:", channel.state); // Depuración
+    console.log("Channel state after subscribe:", channel.state);
     return () => supabase.removeChannel(channel);
 }
 
@@ -64,11 +64,11 @@ export async function sendUserMessage(
     text: string,
     clientId: string
 ) {
-    const { error } = await supabase.from("ai_messages").insert({
+    const {error} = await supabase.from("ai_messages").insert({
         chat_id: chatId,
         sender: "user",
         content: text,
-        metadata: { client_id: clientId }
+        metadata: {client_id: clientId}
     });
     if (error) throw error;
 }
@@ -79,7 +79,7 @@ export async function sendAssistantMessage(
     text: string,
     metadata?: any
 ) {
-    const { error } = await supabase.from("ai_messages").insert({
+    const {error} = await supabase.from("ai_messages").insert({
         chat_id: chatId,
         sender: "assistant",
         content: text,
@@ -89,11 +89,11 @@ export async function sendAssistantMessage(
 }
 
 export async function getChatsByUser(userId: string) {
-    const { data, error } = await supabase
+    const {data, error} = await supabase
         .from("ai_chats")
         .select("id, title, created_at")
         .eq("user_id", userId)
-        .order("created_at", { ascending: false });
+        .order("created_at", {ascending: false});
 
     if (error) throw error;
     return data ?? [];
