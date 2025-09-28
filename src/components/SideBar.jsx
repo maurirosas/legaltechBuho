@@ -10,7 +10,6 @@ import {
     SideBar__title,
 } from "../styles/SideBar.styled";
 import {ChatHistoryItem} from "./ChatHistorial";
-import {SearchComponent} from "./Search";
 import {Logo__imgComponent} from "./Logo";
 
 import {useLocation, useNavigate} from "react-router-dom";
@@ -18,8 +17,8 @@ import {createNewChat, getChatsByUser} from "../services/chatService.js";
 import {AuthContext} from "../context/AuthContext";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCommentMedical} from "@fortawesome/free-solid-svg-icons";
-
+import {faGear, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
 export const SideBarComponent = ({isOpen, handleSidebarToggle}) => {
     const {user} = useContext(AuthContext);
     const [chats, setChats] = useState([]);
@@ -49,18 +48,17 @@ export const SideBarComponent = ({isOpen, handleSidebarToggle}) => {
     return (
         <SideBar $isOpen={isOpen}>
             <SideBar__buttons>
-                <SideBar__buttonAdd onClick={handleNewChat}>
-                    <FontAwesomeIcon
-                        icon={faCommentMedical}
-                        style={{color: "#ffffff"}}
-                    />
-                </SideBar__buttonAdd>
-
+                
                 <Logo__imgComponent size="large" color="white"/>
                 <SideBar__title>BUHO</SideBar__title>
             </SideBar__buttons>
-
-            <SearchComponent/>
+            <SideBar__buttonAdd onClick={handleNewChat}>
+                    <FontAwesomeIcon
+                        icon={faPlus}
+                        style={{color: "#ffffff"}}
+                    />
+                     Nuevo Chat
+            </SideBar__buttonAdd>
 
             <ChatHistorial__container>
                 <ChatHistorial__titulo>Mis conversaciones</ChatHistorial__titulo>
@@ -76,7 +74,11 @@ export const SideBarComponent = ({isOpen, handleSidebarToggle}) => {
             </ChatHistorial__container>
 
             <Pro__container>
-                <Pro__button>Mejora tu plan</Pro__button>
+                <FontAwesomeIcon icon={faUser} style={{color: "#808080"}}/>
+                <Pro__button>{user?.name && (
+                            <span style={{marginLeft: "0.5rem"}}>{user.name}</span>
+                        )}</Pro__button>
+                <FontAwesomeIcon icon={faGear} style={{color: "#808080"}}/>
             </Pro__container>
         </SideBar>
     );

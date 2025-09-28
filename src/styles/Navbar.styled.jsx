@@ -15,10 +15,11 @@ const NavbarWrapper = styled.nav`
     justify-content: space-between;
     margin: auto;
     align-items: center;
-    background: #e3e3e3;
+    background: #FFFFFF;
     padding: 1rem 3rem;
     position: relative;
     height: 5vh;
+    border-top-right-radius: 21px;
 `;
 const NavLinkWrapper = styled.div``;
 const StyledNavLink = styled.button`

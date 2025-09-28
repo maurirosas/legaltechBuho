@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const ChatHistorial__item = styled.div`
-  background-color: ${(props) => (props.$isActive ? "rgba(32, 95, 93, 1);" : "rgb(53, 154, 151);")}; // Color cuando está activo
-  padding: 0.4rem 0.75rem;
-  height: 2rem;
+  background-color: ${(props) => (props.$isActive ? "#2A2F38;" : "#2a2f381f;")}; // Color cuando está activo
+  padding: 0.8rem 0.75rem;
+  align-items: center;
   line-height: 1.25rem;
   font-size: 0.9rem;
   border-radius: 10px;
@@ -17,7 +17,7 @@ const ChatHistorial__item = styled.div`
   box-sizing: border-box;
 
   &:hover {
-    background-color: #2b7a78;
+    background-color: #2A2F38;
   }
 `;
 

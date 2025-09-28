@@ -34,7 +34,7 @@ export const Navbar = ({isOpen, handleSidebarToggle}) => {
                 handleSidebarToggle={handleSidebarToggle}
                 isOpen={isOpen}
             />
-            <SearchComponent/>
+            
 
             <UserIconComponent onClick={() => setOpenProfile((prev) => !prev)}/>
 
