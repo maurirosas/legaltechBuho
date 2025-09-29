@@ -64,10 +64,11 @@ const Pro__container = styled.div`
   margin-top: auto;
   width: 100%;
   justify-content: center;
-  margin-bottom: 0.8rem;
-  padding-top: 1.7rem;
+  margin-bottom: 11px;
+  padding-top: 34px;
   align-items: center;
-  border-top: ridge;
+  border-top: 1px solid #D1D1D1;
+  gap: 5px;
 `;
 
 const settings__container = styled.div`
@@ -81,9 +82,9 @@ const settings__container = styled.div`
 
 
 const Pro__button = styled.label`
-  background-color: #2a2f3821;
-  padding: 0rem 1rem;
-  border-radius: 24px;
+  background-color: #ffffffff;
+  padding: 4px 6px;
+  border-radius: 50%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -95,6 +96,7 @@ const Pro__button = styled.label`
 `;
 const SideBar__title = styled.h1`
   font-size: 31px;
+  font-family: serif;
 `;
 export {
   SideBar,

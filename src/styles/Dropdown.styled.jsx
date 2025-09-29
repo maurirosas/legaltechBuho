@@ -9,7 +9,7 @@ export const Dropdown = styled.div`
   border-radius: 12%;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 100;
-  width: 200px;
+  width: 255px;
 `;
 export const Dropdown__list = styled.li`
   padding-top: 10px;

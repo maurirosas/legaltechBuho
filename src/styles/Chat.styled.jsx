@@ -93,20 +93,20 @@ const ChatInputWrapper = styled.div`
     gap: 8px;
     justify-content: center;
     align-items: center;
-    height: 79px;
-    border-top: ridge;
+    height: 91px;
+    border-top: 1px solid #dbdbdbff;
     width: 100%;
     background: #FFFFFF;
 `;
 
 const ChatInputField = styled.textarea`
-    width: 55%;
+    width:67%;
     border: none;
     outline: none;
     background: #E8E8E8;
     font-size: 16px;
     line-height: 1.4;
-    padding: 13px 5px;
+    padding: 13px 18px;
     color: rgba(0, 0, 0, 0.54);
     resize: none;
     overflow-y: auto;

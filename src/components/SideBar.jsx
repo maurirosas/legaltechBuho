@@ -44,13 +44,15 @@ export const SideBarComponent = ({isOpen, handleSidebarToggle}) => {
             console.error("Error al crear nuevo chat:", err);
         }
     };
-
+    const activeChatId = location.pathname.split('/').pop();
+    const activeChat = chats.find(chat => chat.id === activeChatId);
+    const activeChatTitle = activeChat?.title || "Chat sin título";
     return (
         <SideBar $isOpen={isOpen}>
             <SideBar__buttons>
                 
                 <Logo__imgComponent size="large" color="white"/>
-                <SideBar__title>BUHO</SideBar__title>
+                <SideBar__title>BÚHO</SideBar__title>
             </SideBar__buttons>
             <SideBar__buttonAdd onClick={handleNewChat}>
                     <FontAwesomeIcon
@@ -74,11 +76,10 @@ export const SideBarComponent = ({isOpen, handleSidebarToggle}) => {
             </ChatHistorial__container>
 
             <Pro__container>
-                <FontAwesomeIcon icon={faUser} style={{color: "#808080"}}/>
-                <Pro__button>{user?.name && (
-                            <span style={{marginLeft: "0.5rem"}}>{user.name}</span>
-                        )}</Pro__button>
-                <FontAwesomeIcon icon={faGear} style={{color: "#808080"}}/>
+
+                <Pro__button><FontAwesomeIcon icon={faUser} style={{color: "#000000ff"}}/></Pro__button>
+                <span style={{margin: "0 0.5rem 0 0.5rem"}}>{user?.name}</span>
+                <FontAwesomeIcon icon={faGear} style={{color: "#FFFFFF", fontSize: "22px"}}/>
             </Pro__container>
         </SideBar>
     );
