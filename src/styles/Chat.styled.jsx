@@ -33,11 +33,15 @@ const ChatContainer = styled.div`
 `;
 
 const Chat = styled.div`
-    margin: 0 1rem;
     border-radius: 45px;
-    padding: 3rem 10%;
-    height: 77vh;
-    width: auto;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+
+    border-bottom-right-radius: 45px;
+    border-top-right-radius: 45px;
+    
+    height: calc(100vh - 5vh - 1rem - 16px);
+    width: 100%;
     background: #f7f7f7;
     display: flex;
     flex-direction: column;
@@ -48,7 +52,7 @@ const Chat = styled.div`
 
 const Chat__messages = styled.div`
     margin: 0;
-    padding: 0;
+    
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -57,62 +61,69 @@ const Chat__messages = styled.div`
     min-height: 0;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    background: #F9F6F1;
 `;
 
 const Chat__messageWrapper = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: ${(props) => (props.$isUser ? "end" : "flex-start")};
     flex-direction: ${(props) => (props.$isUser ? "row-reverse" : "row")};
     margin: 10px 0;
     animation: ${messageIn} 160ms ease-out both;
+    padding: 0rem 1rem 0px 2rem;
+    gap: 8px;
 `;
 
 const Chat__message = styled.div`
     max-width: 70%;
-    padding: 1.2rem 2rem;
-    border-radius: 56px;
+    padding: 0.2rem 1rem;
+    border-radius: 21px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     background-color: ${(props) => (props.$isUser ? "#ECECEC" : "#FFFFFF")};
     color: #000000;
     font-size: 18px;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    font-size: 1rem;
 `;
 
 const ChatInputWrapper = styled.div`
     display: flex;
-    align-items: flex-end;
-    padding: 8px 12px;
-    border-radius: 30px;
-    background-color: #e8e8e8;
-    margin: 0 12px;
     gap: 8px;
+    justify-content: center;
+    align-items: center;
+    height: 91px;
+    border-top: 1px solid #dbdbdbff;
+    width: 100%;
+    background: #FFFFFF;
 `;
 
 const ChatInputField = styled.textarea`
-    flex: 1;
+    width:67%;
     border: none;
     outline: none;
-    background: transparent;
+    background: #E8E8E8;
     font-size: 16px;
     line-height: 1.4;
-    padding: 12px 0;
-    color: rgba(0, 0, 0, 0.84);
+    padding: 13px 18px;
+    color: rgba(0, 0, 0, 0.54);
     resize: none;
     overflow-y: auto;
-    max-height: 30vh;
-    min-height: 24px;
+    max-height: 24px;
+    min-height: 8px;
     white-space: pre-wrap;
     word-break: break-word;
+    border-radius: 14px;
+    scrollbar-width: none;
 `;
 
 const ChatInputButton = styled.button`
-    background-color: #3aafa9;
+    background-color: #1D1D1D;
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     cursor: pointer;
     display: flex;
     align-items: center;

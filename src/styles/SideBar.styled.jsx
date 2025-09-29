@@ -10,15 +10,18 @@ const SideBar = styled.div`
   overflow: hidden;
   transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
   z-index: 1000;
-  border-radius: 30px;
-  margin: 0.5rem;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 30px;
+  margin: 0rem;
   display: flex;
   flex-direction: column;
 `;
 
 const SideBar__buttons = styled.div`
   height: 4rem;
-  justify-content: center;
+  justify-content: start;
   text-align: right;
   margin-bottom: 1rem;
   display: flex;
@@ -28,6 +31,24 @@ const SideBar__buttonAdd = styled.a`
   text-decoration: none;
   font-size: 24px;
   cursor: pointer;
+
+  background-color: #2A2F38;
+  padding: 0.8rem 0.75rem;
+  align-items: center;
+  line-height: 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: #2A2F38;
+  }
 `;
 
 const ChatHistorial__container = styled.div`
@@ -37,32 +58,46 @@ const ChatHistorial__container = styled.div`
   gap: 0.5rem;
 `;
 const ChatHistorial__titulo = styled.label``;
+
 const Pro__container = styled.div`
   display: flex;
   margin-top: auto;
   width: 100%;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 11px;
+  padding-top: 34px;
+  align-items: center;
+  border-top: 1px solid #D1D1D1;
+  gap: 5px;
 `;
-const SideBar__title = styled.h1`
-  font-size: 31px;
+
+const settings__container = styled.div`
+  display: flex;
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 0rem;
+  align-items: center;
 `;
-const Pro__button = styled.button`
-  background-color: rgb(53, 154, 151);
-  padding: 1rem 3rem;
-  border-radius: 24px;
+
+
+const Pro__button = styled.label`
+  background-color: #ffffffff;
+  padding: 4px 6px;
+  border-radius: 50%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 0.2s;
   color: #fff;
-  font-size: 20px;
-  &:hover {
-    background-color: #2b7a78;
-  }
+  font-size: 16px;
+  
 `;
-
+const SideBar__title = styled.h1`
+  font-size: 31px;
+  font-family: serif;
+`;
 export {
   SideBar,
   SideBar__title,

@@ -1,4 +1,4 @@
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useNavigate, useLocation} from "react-router-dom"; // <-- Asegúrate que useLocation esté aquí
 import {Navbar} from "./components/Navbar";
 import {GlobalStyle, MainContentWrapper} from "./styles/Global.styled";
 import React, {useContext, useEffect, useState} from "react";
@@ -10,6 +10,8 @@ function App() {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const {user} = useContext(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation(); // Hook para obtener la URL actual
+    const [chats, setChats] = useState([]); // Estado para guardar la lista de chats
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!isSidebarOpen);
@@ -18,30 +20,52 @@ function App() {
     useEffect(() => {
         if (user?.id) {
             (async () => {
-                const chats = await getChatsByUser(user.id);
-                if (chats.length > 0) {
+                const fetchedChats = await getChatsByUser(user.id); // Renombramos a fetchedChats para evitar confusión
+                setChats(fetchedChats);
+                if (fetchedChats.length > 0) {
                     // Redirigir al chat más reciente
-                    const latestChat = chats[0];
-                    navigate(`/Chat/${latestChat.id}`);
+                    const latestChat = fetchedChats[0];
+                    // Solo redirigir si no estamos ya en un chat
+                    if (!location.pathname.includes('/Chat/')) { 
+                        navigate(`/Chat/${latestChat.id}`, { replace: true });
+                    }
                 } else {
                     // Crear un nuevo chat si no hay ninguno
                     const newChat = await createNewChat(user.id);
-                    navigate(`/Chat/${newChat.id}`);
+                    navigate(`/Chat/${newChat.id}`, { replace: true });
                 }
             })();
         }
-    }, [user?.id, navigate]);
+    }, [user?.id, navigate, location.pathname]);
 
+    
+    // 1. Extrae el ID del chat de la URL (ej: /Chat/123 -> 123)
+    const pathSegments = location.pathname.split('/');
+    const activeChatId = pathSegments[pathSegments.length - 1]; 
+
+    // 2. Busca el chat activo en la lista de chats
+    const activeChat = chats.find(chat => chat.id === activeChatId);
+    
+    // 3. Define el título que se pasará a la Navbar
+    const activeChatTitle = activeChat 
+        ? activeChat.title || "Chat sin título" 
+        : "BÚHO Legal IA"; // Título predeterminado si no se encuentra el chat
+
+    // ----------------------------------------------------
+    
     return (
         <div className="App" style={{display: "flex", height: "100vh"}}>
             <SideBarComponent
                 isOpen={isSidebarOpen}
                 handleSidebarToggle={handleSidebarToggle}
+                // Si la SideBar necesita los chats, puedes pasárselos así:
+                // chats={chats} 
             />
             <MainContentWrapper $isOpen={isSidebarOpen}>
                 <Navbar
                     handleSidebarToggle={handleSidebarToggle}
                     isSidebarOpen={isSidebarOpen}
+                    activeChatTitle={activeChatTitle} // <<-- ¡Aquí pasamos el título!
                 />
                 <Outlet context={{isSidebarOpen}}/>
             </MainContentWrapper>

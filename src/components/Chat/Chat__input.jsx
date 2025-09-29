@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {ChatInputButton, ChatInputField, ChatInputWrapper,} from "../../styles/Chat.styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowUp} from "@fortawesome/free-solid-svg-icons";
+import {faArrowUp, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 export const Chat__inputComponent = ({onSend}) => {
     const [input, setInput] = useState("");
@@ -46,13 +46,13 @@ export const Chat__inputComponent = ({onSend}) => {
             <ChatInputField
                 ref={taRef}
                 rows={1}
-                placeholder="Escribe un mensaje (Enter para enviar, Shift+Enter para salto de línea)"
+                placeholder="Haz tu consulta juridica"
                 value={input}
                 onChange={handleChange}
                 onKeyDown={onKeyDown}
             />
             <ChatInputButton onClick={handleSubmit} aria-label="Enviar">
-                <FontAwesomeIcon icon={faArrowUp}/>
+                <FontAwesomeIcon icon={faPaperPlane}/>
             </ChatInputButton>
         </ChatInputWrapper>
     );
