@@ -95,8 +95,9 @@ const Pro__button = styled.label`
   
 `;
 const SideBar__title = styled.h1`
-  font-size: 31px;
+  font-size:51px;
   font-family: serif;
+  margin-left:-20px
 `;
 export {
   SideBar,

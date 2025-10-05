@@ -71,7 +71,7 @@ const Chat__messageWrapper = styled.div`
     flex-direction: ${(props) => (props.$isUser ? "row-reverse" : "row")};
     margin: 10px 0;
     animation: ${messageIn} 160ms ease-out both;
-    padding: 0rem 1rem 0px 2rem;
+    padding: 0rem 15% 0px 15%;
     gap: 8px;
 `;
 
