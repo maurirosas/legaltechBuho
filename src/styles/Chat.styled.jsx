@@ -48,6 +48,9 @@ const Chat = styled.div`
     justify-content: space-between;
     flex: 1;
     min-height: 0;
+    @media (max-width: 480px) {
+        height: calc(100vh - 5vh - 1rem);
+    }
 `;
 
 const Chat__messages = styled.div`
@@ -73,6 +76,15 @@ const Chat__messageWrapper = styled.div`
     animation: ${messageIn} 160ms ease-out both;
     padding: 0rem 15% 0px 15%;
     gap: 8px;
+    
+    @media (max-width: 1279px) {
+        padding: 0rem 8% 0px 8%;
+    }
+    @media (max-width: 480px) {
+        padding: 0rem 2% 0px 2%;
+        gap:4px
+    }
+    
 `;
 
 const Chat__message = styled.div`
@@ -86,6 +98,13 @@ const Chat__message = styled.div`
     word-wrap: break-word;
     overflow-wrap: break-word;
     font-size: 1rem;
+    @media (max-width: 1279px) {
+      max-width: 75%;
+      font-size: 0.8rem;
+    }
+    @media (max-width: 480px) {
+      font-size: 0.7rem;
+    }
 `;
 
 const ChatInputWrapper = styled.div`
@@ -97,7 +116,15 @@ const ChatInputWrapper = styled.div`
     border-top: 1px solid #dbdbdbff;
     width: 100%;
     background: #FFFFFF;
+    @media (max-width: 480px) {
+        height: 70px;
+        gap:2px;
+        svg{
+            font-size: 12px !important;
+        }
+    }
 `;
+
 
 const ChatInputField = styled.textarea`
     width:67%;
@@ -116,6 +143,11 @@ const ChatInputField = styled.textarea`
     word-break: break-word;
     border-radius: 14px;
     scrollbar-width: none;
+    @media (max-width: 480px) {
+        font-size: 0.7rem;
+        max-height: 10px;
+        min-height: 8px;    
+    }
 `;
 
 const ChatInputButton = styled.button`
@@ -137,6 +169,12 @@ const ChatInputButton = styled.button`
     &:hover {
         background-color: #319e9b;
     }
+        @media (max-width: 480px) {
+            width: 35px;
+            height: 35px;
+            svg{
+                padding:5px}
+      }
 `;
 
 export const TypingBubble = styled.div`

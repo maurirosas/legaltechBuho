@@ -20,7 +20,7 @@ export const DropdownComponent = forwardRef((props, ref) => {
 
                     <Dropdown__item>
                         <FontAwesomeIcon icon={faGear} style={{color: "#808080"}}/>{" "}
-                        Ajustes
+                        <span style={{marginLeft: "0.5rem"}}>Ajustes</span>
                     </Dropdown__item>
 
                     <Dropdown__item>
@@ -29,7 +29,7 @@ export const DropdownComponent = forwardRef((props, ref) => {
                                 icon={faRightFromBracket}
                                 style={{color: "#808080"}}
                             />
-                            Cerrar sesión
+                            <span style={{marginLeft: "0.5rem"}}>Cerrar sesión</span>
                         </a>
                     </Dropdown__item>
                 </Dropdown__list>
@@ -46,7 +46,7 @@ export const DropdownComponent = forwardRef((props, ref) => {
                             }}
                         >
                             <FontAwesomeIcon icon={faUser} style={{color: "#808080"}}/>{" "}
-                            Iniciar sesión
+                            <span style={{marginLeft: "0.5rem"}}>Iniciar sesión</span>
                         </a>
                     </Dropdown__item>
                 </Dropdown__list>
