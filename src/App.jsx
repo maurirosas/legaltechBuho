@@ -17,8 +17,12 @@ function App() {
         setSidebarOpen(!isSidebarOpen);
     };
 
+    // Determinar si estamos en la página home
+    const isHomePage = location.pathname === '/';
+
     useEffect(() => {
-        if (user?.id) {
+        // Solo redirigir si el usuario está autenticado Y NO está en la home
+        if (user?.id && !isHomePage) {
             (async () => {
                 const fetchedChats = await getChatsByUser(user.id); // Renombramos a fetchedChats para evitar confusión
                 setChats(fetchedChats);
@@ -26,7 +30,7 @@ function App() {
                     // Redirigir al chat más reciente
                     const latestChat = fetchedChats[0];
                     // Solo redirigir si no estamos ya en un chat
-                    if (!location.pathname.includes('/Chat/')) { 
+                    if (!location.pathname.includes('/Chat/')) {
                         navigate(`/Chat/${latestChat.id}`, { replace: true });
                     }
                 } else {
@@ -36,30 +40,41 @@ function App() {
                 }
             })();
         }
-    }, [user?.id, navigate, location.pathname]);
+    }, [user?.id, navigate, location.pathname, isHomePage]);
 
-    
+
     // 1. Extrae el ID del chat de la URL (ej: /Chat/123 -> 123)
     const pathSegments = location.pathname.split('/');
-    const activeChatId = pathSegments[pathSegments.length - 1]; 
+    const activeChatId = pathSegments[pathSegments.length - 1];
 
     // 2. Busca el chat activo en la lista de chats
     const activeChat = chats.find(chat => chat.id === activeChatId);
-    
+
     // 3. Define el título que se pasará a la Navbar
-    const activeChatTitle = activeChat 
-        ? activeChat.title || "Chat sin título" 
+    const activeChatTitle = activeChat
+        ? activeChat.title || "Chat sin título"
         : "BÚHO Legal IA"; // Título predeterminado si no se encuentra el chat
 
     // ----------------------------------------------------
-    
+
+    // Si estamos en la home, solo mostrar el contenido sin sidebar ni navbar
+    if (isHomePage) {
+        return (
+            <>
+                <Outlet context={{isSidebarOpen}}/>
+                <GlobalStyle/>
+            </>
+        );
+    }
+
+    // Para otras rutas (chat), mostrar el layout completo
     return (
         <div className="App" style={{display: "flex", height: "100vh"}}>
             <SideBarComponent
                 isOpen={isSidebarOpen}
                 handleSidebarToggle={handleSidebarToggle}
                 // Si la SideBar necesita los chats, puedes pasárselos así:
-                // chats={chats} 
+                // chats={chats}
             />
             <MainContentWrapper $isOpen={isSidebarOpen}>
                 <Navbar
