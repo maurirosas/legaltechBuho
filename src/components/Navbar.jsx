@@ -5,7 +5,7 @@ import {UserIconComponent} from "./UserIcon";
 import {DropdownComponent} from "./Dropdown";
 import {AuthContext} from "../context/AuthContext";
 
-import {NavbarWrapper,} from "../styles/Navbar.styled";
+import {NavbarWrapper,Span__tituloChat} from "../styles/Navbar.styled";
 
 export const Navbar = ({isOpen, handleSidebarToggle, activeChatTitle}) => {
     const {user} = useContext(AuthContext);
@@ -34,15 +34,9 @@ export const Navbar = ({isOpen, handleSidebarToggle, activeChatTitle}) => {
                 handleSidebarToggle={handleSidebarToggle}
                 isOpen={isOpen}
             />
-            <span style={{ 
-                flexGrow: 1, // Esto hace que el título ocupe el espacio central
-                fontSize: '1.2rem',
-                fontWeight: 'bold',
-                color: 'rgba(0, 0, 0, 0.54)', 
-                textAlign: 'center' // Centra el texto en el espacio disponible
-            }}>
+            <Span__tituloChat>
                 {activeChatTitle}
-            </span>
+            </Span__tituloChat>
 
             <UserIconComponent onClick={() => setOpenProfile((prev) => !prev)}/>
 
