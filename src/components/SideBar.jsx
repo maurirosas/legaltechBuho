@@ -8,6 +8,7 @@ import {
     SideBar__buttonAdd,
     SideBar__buttons,
     SideBar__title,
+    Span__nombre
 } from "../styles/SideBar.styled";
 import {ChatHistoryItem} from "./ChatHistorial";
 import {Logo__imgComponent} from "./Logo";
@@ -78,7 +79,7 @@ export const SideBarComponent = ({isOpen, handleSidebarToggle}) => {
             <Pro__container>
 
                 <Pro__button><FontAwesomeIcon icon={faUser} style={{color: "#000000ff"}}/></Pro__button>
-                <span style={{margin: "0 0.5rem 0 0.5rem"}}>{user?.name}</span>
+                <Span__nombre>{user?.name}</Span__nombre>
                 <FontAwesomeIcon icon={faGear} style={{color: "#FFFFFF", fontSize: "22px"}}/>
             </Pro__container>
         </SideBar>

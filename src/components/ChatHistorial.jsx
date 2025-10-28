@@ -19,6 +19,13 @@ const ChatHistorial__item = styled.div`
   &:hover {
     background-color: #2A2F38;
   }
+    @media (max-width: 1279px) {
+    font-size: 0.8rem;
+  }
+    @media (max-width: 480px) {
+    font-size: 0.6rem;
+    padding: 0.5rem 0.4rem;
+  }
 `;
 
 

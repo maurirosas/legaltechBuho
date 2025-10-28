@@ -20,6 +20,9 @@ const NavbarWrapper = styled.nav`
     position: relative;
     height: 5vh;
     border-top-right-radius: 21px;
+    @media (max-width: 480px) {
+        padding: 0.5rem 1rem;
+    }
 `;
 const NavLinkWrapper = styled.div``;
 const StyledNavLink = styled.button`
@@ -54,6 +57,10 @@ const UserIcon__image = styled.img`
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+    @media (max-width: 480px) {
+        height: 30px;
+        width: 30px;
+    }
 `;
 const SidebarButton = styled.button`
     background: none;
@@ -86,6 +93,22 @@ const Sidebar = styled.div`
         font-size: 18px;
     }
 `;
+const Span__tituloChat = styled.span`
+    flex-grow: 1;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgba(0,0,0,0.54);
+    text-align: center;
+
+  @media (max-width: 1279px) {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.6rem;
+  }
+`;
+
 export {
     Navbar__toggle,
     UserIcon,
@@ -97,4 +120,5 @@ export {
     Sidebar,
     Toggle__img,
     SidebarToggle,
+    Span__tituloChat
 };
