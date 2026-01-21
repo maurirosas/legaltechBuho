@@ -1,0 +1,1587 @@
+import styled, { keyframes, createGlobalStyle } from "styled-components";
+import HarveySerifRegular from '../assets/fonts/Harvey Serif Regular.woff2';
+import HarveySansRegular from '../assets/fonts/HarveySansDiatypeVariable-Regular.woff2';
+
+// Estilos Globales para aplicar la tipografía personalizada
+export const GlobalHomeFonts = createGlobalStyle`
+  @font-face {
+    font-family: 'Harvey Serif';
+    src: url(${HarveySerifRegular}) format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* Mejora el rendimiento de carga de la fuente */
+  }
+  @font-face {
+    font-family: 'Harvey Sans';
+    src: url(${HarveySansRegular}) format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* Mejora el rendimiento de carga de la fuente */
+  }
+
+  * {
+    font-family: "Harvey Serif", Georgia, serif !important;
+  }
+`;
+
+// Animations
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+// Main Container
+export const HomeContainer = styled.div`
+  min-height: 100vh;
+  background: #F1F3F5;
+
+`;
+
+// Header
+export const Header = styled.header`
+  background: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 1.5rem 3rem;
+  transform: ${props => props.$isVisible ? 'translateY(0)' : 'translateY(-100%)'};
+  transition: transform 0.3s ease-in-out, padding 0.3s ease;
+
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 1rem;
+  }
+`;
+
+export const HeaderContent = styled.div`
+  max-width: ${props => props.$isScrolled ? '70rem' : '90rem'};
+  margin: 0 auto;
+  background: ${props => props.$isScrolled ? 'rgba(255, 255, 255, 0.8)' : 'transparent'};
+  backdrop-filter: ${props => props.$isScrolled ? 'blur(10px)' : 'none'};
+  -webkit-backdrop-filter: ${props => props.$isScrolled ? 'blur(10px)' : 'none'};
+  border-radius: 3rem;
+  padding: 0.75rem 2rem;
+  border: ${props => props.$isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid transparent'};
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: ${props => props.$isScrolled
+    ? '0 8px 24px rgba(29, 33, 41, 0.2)'
+    : 'none'};
+
+  &:hover {
+    box-shadow: ${props => props.$isScrolled
+      ? '0 10px 32px rgba(29, 33, 41, 0.25)'
+      : 'none'};
+    border-color: ${props => props.$isScrolled ? 'rgba(255, 255, 255, 0.2)' : 'transparent'};
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 0.75rem;
+  }
+`;
+
+export const Nav = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0rem;
+`;
+
+export const LogoBox = styled.div`
+  width: 2.2rem;
+  height: 2.2rem;
+  background: transparent;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    transition: opacity 0.3s ease;
+  }
+
+  .logo-normal {
+    opacity: 1;
+  }
+
+  .logo-hover {
+    opacity: 0;
+  }
+
+  &:hover {
+    transform: rotate(10deg) scale(1.1);
+
+    
+  }
+
+  @media (max-width: 768px) {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+`;
+
+export const LogoText = styled.h1`
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #1E1E1E;
+  margin: 0.3rem;
+  padding-top: 0.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+  }
+`;
+
+export const NavLinks = styled.div`
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+
+  @media (max-width: 767px) {
+    gap: 0.75rem;
+    justify-content: flex-end;
+    flex-grow: 1;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+  }
+`;
+
+export const NavLink = styled.a`
+  color: #505050;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-size: 1.125rem;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 0.25rem;
+  letter-spacing: 0.01em;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #6EA8FE;
+    transition: width 0.3s ease;
+  }
+
+  &:hover {
+    color: #1E1E1E;
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    font-size: 0.875rem;
+    padding: 0.35rem 0.5rem;
+    letter-spacing: normal;
+  }
+`;
+
+export const NavButton = styled.button`
+  background: transparent;
+  color: #1E1E1E;
+  padding: 0.5rem 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid #A5C9FF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1.125rem;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.01em;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #6EA8FE;
+    transition: left 0.3s ease;
+    z-index: -1;
+  }
+
+  &:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(110, 168, 254, 0.3);
+    border-color: #6EA8FE;
+
+    &::before {
+      left: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.35rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+`;
+
+// Hero Section
+export const HeroSection = styled.section`
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 3rem 3rem;
+  background: #F1F3F5;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1rem;
+  }
+`;
+export const HeroGrid = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 4rem;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    min-height: auto;
+  }
+
+  @media (max-width: 768px) {
+    gap: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1.5rem;
+  }
+`;
+export const HeroLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
+`;
+
+export const HeroTitle = styled.h2`
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  color: #1E1E1E;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0;
+`;
+
+export const HeroSubtitle = styled.p`
+  font-size: 1.5rem;
+  color: #505050;
+  line-height: 1.6;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+  }
+`;
+
+export const ChatInputDemo = styled.div`
+  max-width: 42rem;
+  margin: 0 auto;
+`;
+
+export const HeroActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+  }
+`;
+
+export const GoogleLoginButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: white;
+  color: #1E1E1E;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  border: 2px solid #D1D5DB;
+  cursor: pointer;
+  font-size: 1.125rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(30, 30, 30, 0.06);
+
+  &:hover {
+    border-color: #A5C9FF;
+    box-shadow: 0 4px 16px rgba(165, 201, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+    gap: 0.5rem;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+`;
+export const RequestAccessButton = styled.button`
+  background: #A5C9FF;
+  color: #1E1E1E;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  border: 2px solid #A5C9FF;
+  cursor: pointer;
+  font-size: 1.125rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(165, 201, 255, 0.2);
+
+  &:hover {
+    background: #6EA8FE;
+    border-color: #6EA8FE;
+    box-shadow: 0 4px 16px rgba(110, 168, 254, 0.3);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+`;
+
+export const HeroRight = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* Aspect ratio 16:9 */
+  background: white;
+  border-radius: 1rem;
+  border: 2px solid #D1D5DB;
+  box-shadow: 0 8px 32px rgba(30, 30, 30, 0.06);
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 48px rgba(165, 201, 255, 0.15);
+    transform: translateY(-4px);
+  }
+
+  @media (max-width: 968px) {
+    padding-top: 56.25%;
+  }
+
+  @media (max-width: 768px) {
+    border-radius: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    border-radius: 0.5rem;
+    border-width: 1px;
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const VideoPlaceholder = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #E5E7EB;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(165, 201, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  svg {
+    position: relative;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    color: #A5C9FF;
+    opacity: 0.7;
+  }
+`;
+
+export const ChatInputCard = styled.div`
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem 2rem;
+  border: 1px solid #D1D5DB;
+  box-shadow: 0 4px 16px rgba(30, 30, 30, 0.06);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(165, 201, 255, 0.12);
+    transform: translateY(-2px);
+  }
+`;
+
+export const InputLabel = styled.label`
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #1E1E1E;
+  margin-bottom: 0.5rem;
+  text-align: left;
+`;
+
+export const InputWrapper = styled.div`
+  position: relative;
+  margin-bottom: 0.5rem;
+`;
+
+export const SearchInput = styled.input`
+  width: 100%;
+  height: 2.75rem;
+  padding: 0.625rem 3rem 0.625rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background: #E5E7EB;
+  color: #1E1E1E;
+  line-height: 1.5;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #A5C9FF;
+    box-shadow: 0 0 0 3px rgba(165, 201, 255, 0.15);
+    background: white;
+  }
+
+  &::placeholder {
+    color: #505050;
+  }
+`;
+
+export const SearchButton = styled.button`
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #A5C9FF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+
+  &:hover {
+    color: #6EA8FE;
+    background: rgba(165, 201, 255, 0.15);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+`;
+
+export const InputNote = styled.p`
+  font-size: 0.75rem;
+  color: #505050;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  text-align: left;
+`;
+
+// Slider Section - NUEVA VERSIÓN CON IMAGEN Y TEXTO
+export const SliderSection = styled.section`
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  min-height: 100vh;
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow: hidden;
+`;
+
+export const SlidesFixed = styled.div`
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  z-index: 1;
+`;
+
+export const SlidePanel = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transition: transform 0.8s ease-in-out;
+  z-index: ${props => props.$zIndex || 1};
+  transform: translateY(${props => props.$translateY || '0vh'});
+`;
+
+export const SlideBg = styled.div`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+`;
+
+export const SlideContent = styled.div`
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  @media (max-width: 968px) {
+    height: auto;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+`;
+
+export const ContentInner = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  direction: ${props => props.$reverse ? 'ltr' : 'rtl'};
+
+  & > * {
+    direction: ltr;
+  }
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 600px;
+    direction: ltr;
+  }
+
+  & > * {
+    animation: ${fadeIn} 0.7s ease-out both;
+  }
+
+  & > *:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+`;
+
+export const SlideImageContainer = styled.div`
+  background: #D9D9D9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  width: 100%;
+  height: 100%;
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 968px) {
+    padding: 2rem;
+    min-height: 400px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem;
+    min-height: 300px;
+  }
+`;
+
+export const SlideTextContainer = styled.div`
+  background: #2C2C2C;
+  color: #FFFFFF;
+  padding: 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  @media (max-width: 968px) {
+    padding: 3rem 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 2.5rem 1.5rem;
+  }
+`;
+
+export const StepNumber = styled.div`
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  margin-bottom: 1.5rem;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const SlideTitle = styled.h3`
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: 768px) {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    margin-bottom: 1.25rem;
+  }
+`;
+
+export const SlideDescription = styled.p`
+  font-size: 1.5rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  font-weight: 300;
+  color: #E5E5E5;
+  margin-bottom: 2.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+  }
+`;
+
+// Navigation Dots
+export const ParallaxNav = styled.div`
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: ${props => props.$visible ? 'flex' : 'none'};
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: opacity 0.5s;
+
+  @media (max-width: 768px) {
+    right: 1rem;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    right: 0.5rem;
+  }
+`;
+
+export const NavDot = styled.div`
+  cursor: pointer;
+  padding: 0.5rem;
+
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+  }
+`;
+
+export const DotCircle = styled.div`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: ${props => props.$active ? '#A5C9FF' : 'rgba(165, 201, 255, 0.4)'};
+  border: ${props => props.$active ? '2px solid #A5C9FF' : '1px solid rgba(165, 201, 255, 0.4)'};
+  transition: all 0.3s ease;
+  transform: scale(${props => props.$active ? '1.3' : '1'});
+  box-shadow: ${props => props.$active ? '0 0 12px rgba(165, 201, 255, 0.6)' : 'none'};
+
+  &:hover {
+    background-color: #6EA8FE;
+    border-color: #6EA8FE;
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 768px) {
+    width: 10px;
+    height: 10px;
+  }
+
+  @media (max-width: 480px) {
+    width: 12px;
+    height: 12px;
+    border-width: 2px;
+  }
+`;
+
+// Benefits Section
+export const BenefitsSection = styled.section`
+  padding: 5rem 0;
+  background: #E5E7EB;
+  border-top: 1px solid #D1D5DB;
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 2rem 0;
+  }
+`;
+
+export const BenefitsContainer = styled.div`
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+`;
+
+export const BenefitsHeader = styled.div`
+  text-align: center;
+  margin-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 2rem;
+  }
+`;
+
+export const BenefitsTitle = styled.h3`
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: #1E1E1E;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+
+  .italic {
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+`;
+
+export const BenefitsItalic = styled.span`
+  font-style: italic;
+`;
+
+export const BenefitsSubtitle = styled.p`
+  color: #505050;
+  font-size: 1.5rem;
+  font-weight: 300;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+  }
+`;
+
+  export const BenefitsGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(auto, max-content);
+    gap: 0.875rem;
+    max-width: 70rem;
+    margin: 0 auto;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: auto;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+  `;
+
+  export const BenefitCard = styled.div`
+    background: ${props => props.$theme === 'light' ? 'white' : '#1E1E1E'};
+    border: ${props => props.$theme === 'light' ? '1px solid #D1D5DB' : 'none'};
+    border-radius: 2rem;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1.5rem 1.75rem;
+    max-height: fit-content;
+
+    /* Grid positioning: 1 largo izquierda, 2 centro (apilados), 1 derecha */
+    /* 80% - izquierda, alto (2 filas) */
+    &:nth-child(1) {
+      grid-column: 1 / 5;
+      grid-row: 1 / 3;
+    }
+
+    /* 260 HORAS - centro arriba */
+    &:nth-child(2) {
+      grid-column: 5 / 9;
+      grid-row: 1;
+    }
+
+    /* 200 HORAS - centro abajo */
+    &:nth-child(3) {
+      grid-column: 5 / 9;
+      grid-row: 2;
+    }
+
+    /* 24/7 - derecha, alto (2 filas) */
+    &:nth-child(4) {
+      grid-column: 9 / 13;
+      grid-row: 1 / 3;
+    }
+
+    &:hover {
+      background: ${props => props.$theme === 'light' ? '#F9FAFB' : '#2A2A2A'};
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1024px) {
+      grid-column: auto !important;
+      grid-row: auto !important;
+    }
+
+    @media (max-width: 768px) {
+      padding: 1.5rem 1.5rem;
+    }
+  `;
+
+  export const BenefitTitle = styled.h4`
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: ${props => props.$theme === 'light' ? '#1E1E1E' : '#FFFFFF'};
+    margin: 0 0 0.375rem 0;
+    letter-spacing: -0.03em;
+    transition: color 0.3s;
+    line-height: 1;
+
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+  `;
+
+  export const BenefitSubtitle = styled.span`
+    display: block;
+    font-style: normal;
+    font-size: 0.8125rem;
+    color: #A7D3F0;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+
+    @media (max-width: 768px) {
+      font-size: 0.75rem;
+      margin-bottom: 0.375rem;
+    }
+  `;
+
+  export const BenefitDescription = styled.p`
+    color: ${props => props.$theme === 'light' ? '#505050' : '#D1D5DB'};
+    line-height: 1.5;
+    font-weight: 300;
+    margin: 0;
+    font-size: 1.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
+  `;
+
+export const BenefitButton = styled.button`
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.6rem 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: auto; /* Empuja el botón al final */
+  align-self: flex-start; /* Alinea el botón a la izquierda */
+
+  &:hover {
+    background: white;
+    color: #1D2129;
+    border-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+  }
+`;
+
+// Carousel Wrapper
+export const CarouselWrapper = styled.div`
+  position: relative;
+  padding: 2rem 0;
+  display: none;
+`;
+
+// Benefit Image Container
+export const BenefitImageContainer = styled.div`
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 1rem 1rem 0 0;
+  background: rgba(51, 65, 85, 0.3);
+`;
+
+export const BenefitImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+
+  ${BenefitCard}:hover & {
+    transform: scale(1.1);
+  }
+`;
+
+export const BenefitContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+`;
+
+// CTA Section
+export const CTASection = styled.section`
+  padding: 6rem 0;
+  background: #1C1C1C;
+  color: #FFFFFF;
+  border-top: 1px solid #374151;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+`;
+
+export const CTAContainer = styled.div`
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+`;
+
+export const CTATitle = styled.h3`
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  color: #FFFFFF;
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const CTASubtitle = styled.p`
+  font-size: 1.5rem;
+  color: #D1D5DB;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  font-weight: 300;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+  }
+`;
+
+export const CTAActionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    align-items: center;
+    width: 100%;
+    button {
+      width: 100%;
+    }
+  }
+`;
+
+export const CTAButton = styled.button`
+  background: #A7D3F0;
+  color: #1C1C1C;
+  padding: 0.875rem 2rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(167, 211, 240, 0.25);
+
+  &:hover {
+    background: #8FC5E8;
+    color: #1C1C1C;
+    transform: translateX(4px);
+    box-shadow: 0 6px 16px rgba(167, 211, 240, 0.35);
+  }
+
+  span {
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.8125rem 1.75rem;
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+`;
+
+export const CTASecondaryButton = styled.button`
+  background: transparent;
+  color: #D1D5DB;
+  padding: 0.875rem 2rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 1px solid #374151;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFFFFF;
+    border-color: #9CA3AF;
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.8125rem 1.75rem;
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+`;
+
+export const CTANote = styled.p`
+  font-size: 1.5rem;
+  color: #9CA3AF;
+  margin-top: 1rem;
+`;
+
+// Footer
+export const Footer = styled.footer`
+  background: #1C1C1C;
+  color: #FFFFFF;
+  padding: 3rem 0;
+  border-top: 1px solid #374151;
+
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0;
+  }
+`;
+
+export const FooterContainer = styled.div`
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+`;
+
+export const FooterContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+export const FooterLogoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+export const FooterLogo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+`;
+
+export const FooterLogoBox = styled.div`
+  width: 1.8rem;
+  height: 1.8rem;
+  background: transparent;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    transition: opacity 0.3s ease;
+    filter: brightness(0) invert(1);
+  }
+
+  .logo-normal {
+    opacity: 1;
+  }
+
+  .logo-hover {
+    opacity: 0;
+  }
+
+  &:hover {
+    transform: rotate(10deg) scale(1.1);
+
+    
+    
+  }
+`;
+
+export const FooterLogoText = styled.span`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  padding-top: 0.5rem;
+
+
+  @media (max-width: 768px) {
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
+`;
+
+export const FooterCopyright = styled.div`
+  font-size: 1.5rem;
+  color: #9CA3AF;
+  font-family: 'Harvey Sans', sans-serif;
+  text-align: left;
+
+  @media (max-width: 767px) {
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+  }
+`;
+
+export const FooterLinks = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    gap: 1rem;
+  }
+`;
+
+export const FooterLink = styled.a`
+  font-size: 1.5rem;
+  color: #D1D5DB;
+  text-decoration: none;
+  font-family: 'Harvey Sans', sans-serif;
+  transition: color 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    color: #A7D3F0;
+  }
+`;
+
+const cursorBlink = keyframes`
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+`;
+
+export const TypedContainer = styled.div`
+  display: inline-block;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  
+  .typed-cursor {
+    opacity: 1;
+    animation: ${cursorBlink} 1s infinite;
+    color: ${props => props.$cursorColor || 'inherit'};
+    font-weight: 300;
+    margin-left: 2px;
+  }
+  
+  /* Personalización para diferentes variantes */
+  &.hero-typed {
+    .typed-cursor {
+      color: rgba(0, 0, 0, 0.8);
+      font-weight: 400;
+    }
+  }
+  
+  &.gradient-typed {
+    span {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .typed-cursor {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+`;
+
+export const HeroTitleTyped = styled(HeroTitle).attrs({ as: 'h1' })`
+  margin-bottom: 0.5rem;
+  min-height: 170px;
+
+  @media (max-width: 768px) {
+    min-height: 140px;
+  }
+
+  @media (max-width: 480px) {
+    min-height: 120px;
+  }
+`;
+
+//carousel
+const scrollAnimation = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%); // Se mueve exactamente 1/4 del contenido (1 set de 4)
+  }
+`;
+
+export const CarouselHeader = styled.div`
+  text-align: center;
+  padding: 3rem 1rem 2rem; // Aumentado el padding superior de 2rem a 3rem
+  background: #F1F3F5;
+
+  @media (max-width: 768px) {
+    padding: 2.5rem 0.75rem 1.5rem; // Aumentado de 1.5rem a 2.5rem
+  }
+
+  @media (max-width: 480px) {
+    padding: 2rem 0.5rem 1rem; // Aumentado de 1rem a 2rem
+  }
+`;
+
+export const SectionSubtitle = styled.h3`
+  font-size: 1.75rem; // Aumentado de 1.25rem
+  font-weight: 600; // Cambiado de 400 a 600 para hacerlo más prominente
+  color: #1E1E1E; // Cambiado de #505050 a un color más oscuro
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem; // Aumentado de 1.125rem
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem; // Aumentado de 1rem
+  }
+`;
+
+
+export const CarouselSection = styled.section`
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 0.5rem 0;
+  background: #F1F3F5;
+
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+
+  @media (max-width: 768px) {
+    padding: 0.25rem 0;
+  }
+`;
+
+export const CarouselTrack = styled.div`
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: ${scrollAnimation} 25s linear infinite;
+
+  @media (max-width: 768px) {
+    gap: 2rem;
+    animation-duration: 20s;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1.5rem;
+    animation-duration: 18s;
+  }
+`;
+
+export const LogoCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px; // Aumentado de 150px
+  gap: 0.75rem; 
+  
+
+  @media (max-width: 768px) {
+    min-width: 140px;
+    gap: 0.5rem; 
+  }
+`;
+
+export const LogoImage = styled.img`
+  width: 100px; 
+  height: 100px; 
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+
+  ${LogoCard}:hover & {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 80px; 
+    height: 80px; 
+  }
+`;
+
+export const LogoName = styled.p`
+  font-size: 20px;
+  font-weight: 500;
+  color: #505050;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+
+  ${LogoCard}:hover & {
+    color: #1E1E1E;
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 16px; // Aumentado de 12px
+  }
+`;

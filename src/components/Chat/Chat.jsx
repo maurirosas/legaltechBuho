@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
-import {Chat} from "../../styles/Chat.styled";
-import {Chat__messagesComponent} from "./Chat__messages";
-import {Chat__inputComponent} from "./Chat__input";
-import {createNewChat, fetchMessages, sendUserMessage, subscribeMessages} from "../../services/chatService";
-import {AuthContext} from "../../context/AuthContext";
-import {callAI} from "../../services/ai";
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Chat, WelcomeSection, WelcomeTitle, WelcomeSubtitle, CategoryChipsContainer, CategoryChip } from "../../styles/Chat.styled";
+import { Chat__messagesComponent } from "./Chat__messages";
+import { Chat__inputComponent } from "./Chat__input";
+import { createNewChat, fetchMessages, sendUserMessage, subscribeMessages } from "../../services/chatService";
+import { AuthContext } from "../../context/AuthContext";
+import { callAI } from "../../services/ai";
 
-export const ChatComponent = ({chatId: chatIdFromRoute}) => {
-    const {user} = useContext(AuthContext);
+export const ChatComponent = ({ chatId: chatIdFromRoute }) => {
+    const { user } = useContext(AuthContext);
     const [chatId, setChatId] = useState(chatIdFromRoute ?? null);
     const [messages, setMessages] = useState([]);
     const [typing, setTyping] = useState(false);
@@ -15,13 +15,13 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
     });
     const bottomRef = useRef(null);
     const subscriptionReady = useRef(false);
-    const pendingMessages = useRef([]); // Cola para mensajes enviados antes de la suscripción
-    let isMounted = true; // Mover isMounted al ámbito superior
+    const pendingMessages = useRef([]);
+    let isMounted = true;
 
     const scrollToBottom = () => {
         if (!bottomRef.current) return;
         requestAnimationFrame(() => {
-            bottomRef.current?.scrollIntoView({behavior: "smooth", block: "end"});
+            bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
         });
     };
 
@@ -30,7 +30,6 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
     }, [messages.length]);
 
     useEffect(() => {
-        // Resetear estado si no hay usuario autenticado
         if (!user?.id) {
             setChatId(null);
             setMessages([]);
@@ -45,10 +44,8 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
             return;
         }
 
-        // Solo proceder si el usuario está autenticado
         if (!chatIdFromRoute) return;
 
-        // Limpiar suscripción previa
         if (unsubRef.current) {
             console.log("Cleaning up previous subscription for chatId:", chatId);
             unsubRef.current();
@@ -56,7 +53,7 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
             };
         }
 
-        isMounted = true; // Resetear isMounted al montar
+        isMounted = true;
 
         (async () => {
             let id = chatIdFromRoute;
@@ -77,7 +74,6 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
                 );
             }
 
-            // Configurar la suscripción
             unsubRef.current = subscribeMessages(id, (row) => {
                 console.log("Received insert for chatId:", id, "row:", row);
                 if (row.chat_id !== id) {
@@ -119,12 +115,11 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
                 }
             });
 
-            // Esperar conexión y marcar como lista
-            await new Promise((resolve) => setTimeout(resolve, 1000)); // Aumentar a 1000ms
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             console.log("Subscription set up and channel connected for chatId:", id);
             subscriptionReady.current = true;
 
-            const recentMessages = await fetchMessages(id, {limit: 10});
+            const recentMessages = await fetchMessages(id, { limit: 10 });
             if (isMounted) {
                 setMessages((prev) => {
                     const newMessages = recentMessages
@@ -139,9 +134,8 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
                 });
             }
 
-            // Procesar mensajes encolados solo si la suscripción está lista
             if (subscriptionReady.current) {
-                pendingMessages.current.forEach(({userText, clientId}) => handleSend(userText, clientId));
+                pendingMessages.current.forEach(({ userText, clientId }) => handleSend(userText, clientId));
                 pendingMessages.current = [];
             }
         })();
@@ -161,14 +155,14 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
         if (!chatIdFromRoute || !user?.id) return;
 
         if (!subscriptionReady.current) {
-            pendingMessages.current.push({userText, clientId});
-            console.log("Message enqueued, waiting for subscription:", {userText, clientId});
+            pendingMessages.current.push({ userText, clientId });
+            console.log("Message enqueued, waiting for subscription:", { userText, clientId });
             return;
         }
 
         setMessages((prev) => [
             ...prev,
-            {text: userText, isUser: true, pending: true, clientId},
+            { text: userText, isUser: true, pending: true, clientId },
         ]);
 
         try {
@@ -177,7 +171,7 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
         } catch (e) {
             setMessages((prev) =>
                 prev.map((m) =>
-                    m.pending && m.clientId === clientId ? {...m, error: true} : m
+                    m.pending && m.clientId === clientId ? { ...m, error: true } : m
                 )
             );
             return;
@@ -188,7 +182,6 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
             console.log("Calling AI for chatId:", chatIdFromRoute);
             await callAI(chatIdFromRoute, userText);
 
-            // Forzar actualización con fetchMessages después de 2 segundos como respaldo
             const updateMessages = async () => {
                 if (isMounted) {
                     console.log("Forcing update with fetchMessages for chatId:", chatIdFromRoute);
@@ -204,31 +197,65 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
                     setTyping(false);
                 }
             };
-            setTimeout(updateMessages, 2000); // Respaldo por si el WebSocket falla
+            setTimeout(updateMessages, 2000);
         } catch (e) {
             console.error("AI error", e);
             if (isMounted) {
                 setTyping(false);
                 setMessages((prev) => [
                     ...prev,
-                    {text: "No pude obtener respuesta del asistente.", isUser: false},
+                    { text: "No pude obtener respuesta del asistente.", isUser: false },
                 ]);
             }
         }
     };
 
-    const messagesToShow = messages.length
-        ? messages
-        : [{text: "Hola, ¿en qué puedo ayudarte?", isUser: false}];
+    const handleCategoryClick = (category) => {
+        handleSend(`Ayúdame con ${category}`);
+    };
+
+    // Determinar si mostrar la pantalla de bienvenida
+    const showWelcome = messages.length === 0;
 
     return (
         <Chat>
-            <Chat__messagesComponent
-                messages={messagesToShow}
-                bottomRef={bottomRef}
-                typing={typing}
-            />
-            <Chat__inputComponent onSend={(userText) => handleSend(userText)}/>
+            {showWelcome ? (
+                <WelcomeSection>
+                    <WelcomeTitle>
+                        Bienvenido a BÚHO
+                    </WelcomeTitle>
+                    {user?.user_metadata?.full_name && <WelcomeSubtitle>Dr. {user.user_metadata.full_name}</WelcomeSubtitle>}
+
+                    <Chat__inputComponent onSend={(userText) => handleSend(userText)} showLines={true} />
+
+                    <CategoryChipsContainer>
+                        <CategoryChip onClick={() => handleCategoryClick("Analiza")}>
+                            Analiza
+                        </CategoryChip>
+                        <CategoryChip onClick={() => handleCategoryClick("Jurisprudencia")}>
+                            Jurisprudencia
+                        </CategoryChip>
+                        <CategoryChip onClick={() => handleCategoryClick("Civil")}>
+                            Civil
+                        </CategoryChip>
+                        <CategoryChip onClick={() => handleCategoryClick("Penal")}>
+                            Penal
+                        </CategoryChip>
+                        <CategoryChip onClick={() => handleCategoryClick("Laboral")}>
+                            Laboral
+                        </CategoryChip>
+                    </CategoryChipsContainer>
+                </WelcomeSection>
+            ) : (
+                <>
+                    <Chat__messagesComponent
+                        messages={messages}
+                        bottomRef={bottomRef}
+                        typing={typing}
+                    />
+                    <Chat__inputComponent onSend={(userText) => handleSend(userText)} isFixed={true} />
+                </>
+            )}
         </Chat>
     );
 };
