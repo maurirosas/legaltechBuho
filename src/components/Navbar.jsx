@@ -5,9 +5,9 @@ import {UserIconComponent} from "./UserIcon";
 import {DropdownComponent} from "./Dropdown";
 import {AuthContext} from "../context/AuthContext";
 
-import {NavbarWrapper,} from "../styles/Navbar.styled";
+import {NavbarWrapper,Span__tituloChat} from "../styles/Navbar.styled";
 
-export const Navbar = ({isOpen, handleSidebarToggle}) => {
+export const Navbar = ({isOpen, handleSidebarToggle, activeChatTitle}) => {
     const {user} = useContext(AuthContext);
     const [openProfile, setOpenProfile] = useState(false);
     const dropdownRef = useRef(null);
@@ -34,7 +34,9 @@ export const Navbar = ({isOpen, handleSidebarToggle}) => {
                 handleSidebarToggle={handleSidebarToggle}
                 isOpen={isOpen}
             />
-            <SearchComponent/>
+            <Span__tituloChat>
+                {activeChatTitle}
+            </Span__tituloChat>
 
             <UserIconComponent onClick={() => setOpenProfile((prev) => !prev)}/>
 
