@@ -1,5 +1,5 @@
-import {supabase} from "../services/supaBaseClient.ts";
-import {createContext, ReactNode, useEffect, useState} from "react";
+import { supabase } from "../services/supaBaseClient.ts";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface AuthContext {
     user: null | { id: string; email: string; avatar: string; name: string };
@@ -19,22 +19,27 @@ interface IAppProviderProps {
     children: ReactNode;
 }
 
-const AuthProvider: React.FC<IAppProviderProps> = ({children}: IAppProviderProps) => {
+const AuthProvider: React.FC<IAppProviderProps> = ({ children }: IAppProviderProps) => {
     const [user, setUser] = useState<null | { id: string; email: string; avatar: string; name: string }>(null);
 
     useEffect(() => {
-        const {data: authListener} = supabase.auth.onAuthStateChange(
+        const { data: authListener } = supabase.auth.onAuthStateChange(
             (event, session) => {
                 console.log("Auth state changed:", event, session);
-                if (session)
+                if (session) {
                     setUser({
                         id: session.user.id,
                         email: session.user.user_metadata.email,
                         avatar: session.user.user_metadata.avatar_url,
                         name: session.user.user_metadata.full_name,
                     });
-                else
+                    // Redirigir a /chat después del login exitoso
+                    if (event === 'SIGNED_IN' && window.location.pathname === '/') {
+                        window.location.href = '/chat';
+                    }
+                } else {
                     setUser(null);
+                }
             }
         );
 
@@ -45,8 +50,12 @@ const AuthProvider: React.FC<IAppProviderProps> = ({children}: IAppProviderProps
 
     const loginWithGoogle = async () => {
         console.log("Login with Google clicked");
-        const {data, error} = await supabase.auth.signInWithOAuth({
+        const redirectUrl = import.meta.env.VITE_REDIRECT_URL || window.location.origin;
+        const { data, error } = await supabase.auth.signInWithOAuth({
             provider: "google",
+            options: {
+                redirectTo: `${redirectUrl}/chat`,
+            },
         });
         if (error) console.error(error);
         else console.log("Redirecting to Google:", data);

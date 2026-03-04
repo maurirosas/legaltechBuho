@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
-import {ChatInputButton, ChatInputField, ChatInputWrapper,} from "../../styles/Chat.styled";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowUp, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useRef, useState } from "react";
+import { ChatInputButton, ChatInputContainer, ChatInputField, ChatInputWrapper, } from "../../styles/Chat.styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
-export const Chat__inputComponent = ({onSend}) => {
+export const Chat__inputComponent = ({ onSend, isFixed = false, showLines = false }) => {
     const [input, setInput] = useState("");
     const taRef = useRef(null);
 
@@ -42,18 +42,22 @@ export const Chat__inputComponent = ({onSend}) => {
     };
 
     return (
-        <ChatInputWrapper>
-            <ChatInputField
-                ref={taRef}
-                rows={1}
-                placeholder="Haz tu consulta juridica"
-                value={input}
-                onChange={handleChange}
-                onKeyDown={onKeyDown}
-            />
-            <ChatInputButton onClick={handleSubmit} aria-label="Enviar">
-                <FontAwesomeIcon icon={faPaperPlane}/>
-            </ChatInputButton>
-        </ChatInputWrapper>
+        <ChatInputContainer $isFixed={isFixed}>
+            <ChatInputWrapper $showLines={showLines}>
+                <ChatInputField
+                    ref={taRef}
+                    rows={1}
+                    placeholder="Haz tu consulta jurídica..."
+                    value={input}
+                    onChange={handleChange}
+                    onKeyDown={onKeyDown}
+                />
+                {input.trim() && (
+                    <ChatInputButton onClick={handleSubmit} title="Enviar">
+                        <FontAwesomeIcon icon={faArrowUp} />
+                    </ChatInputButton>
+                )}
+            </ChatInputWrapper>
+        </ChatInputContainer>
     );
 };

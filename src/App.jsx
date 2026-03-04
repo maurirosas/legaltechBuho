@@ -1,5 +1,4 @@
 import {Outlet, useNavigate, useLocation} from "react-router-dom"; // <-- Asegúrate que useLocation esté aquí
-import {Navbar} from "./components/Navbar";
 import {GlobalStyle, MainContentWrapper} from "./styles/Global.styled";
 import React, {useContext, useEffect, useState} from "react";
 import {SideBarComponent} from "./components/SideBar";
@@ -7,11 +6,11 @@ import AuthProvider, {AuthContext} from "./context/AuthContext";
 import {createNewChat, getChatsByUser} from "./services/chatService";
 
 function App() {
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
     const {user} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation(); // Hook para obtener la URL actual
     const [chats, setChats] = useState([]); // Estado para guardar la lista de chats
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!isSidebarOpen);
@@ -42,26 +41,11 @@ function App() {
         }
     }, [user?.id, navigate, location.pathname, isHomePage]);
 
-
-    // 1. Extrae el ID del chat de la URL (ej: /Chat/123 -> 123)
-    const pathSegments = location.pathname.split('/');
-    const activeChatId = pathSegments[pathSegments.length - 1];
-
-    // 2. Busca el chat activo en la lista de chats
-    const activeChat = chats.find(chat => chat.id === activeChatId);
-
-    // 3. Define el título que se pasará a la Navbar
-    const activeChatTitle = activeChat
-        ? activeChat.title || "Chat sin título"
-        : "BÚHO Legal IA"; // Título predeterminado si no se encuentra el chat
-
-    // ----------------------------------------------------
-
     // Si estamos en la home, solo mostrar el contenido sin sidebar ni navbar
     if (isHomePage) {
         return (
             <>
-                <Outlet context={{isSidebarOpen}}/>
+                <Outlet context={{ isSidebarOpen }} />
                 <GlobalStyle/>
             </>
         );
@@ -69,20 +53,10 @@ function App() {
 
     // Para otras rutas (chat), mostrar el layout completo
     return (
-        <div className="App" style={{display: "flex", height: "100vh"}}>
-            <SideBarComponent
-                isOpen={isSidebarOpen}
-                handleSidebarToggle={handleSidebarToggle}
-                // Si la SideBar necesita los chats, puedes pasárselos así:
-                // chats={chats}
-            />
+        <div className="App" style={{height: "100vh"}}>
+            <SideBarComponent isOpen={isSidebarOpen} handleSidebarToggle={handleSidebarToggle} />
             <MainContentWrapper $isOpen={isSidebarOpen}>
-                <Navbar
-                    handleSidebarToggle={handleSidebarToggle}
-                    isSidebarOpen={isSidebarOpen}
-                    activeChatTitle={activeChatTitle} // <<-- ¡Aquí pasamos el título!
-                />
-                <Outlet context={{isSidebarOpen}}/>
+                <Outlet context={{ isSidebarOpen }}/>
             </MainContentWrapper>
             <GlobalStyle/>
         </div>

@@ -1,31 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import {Home} from "./pages/Home";
-import {SignUp} from "./pages/SignUp";
-import {ChatPage} from "./pages/ChatPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { SignUp } from "./pages/SignUp";
+import { ChatPage } from "./pages/ChatPage";
+import "./styles/fonts.css";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App/>,
+        element: <App />,
         children: [
             {
                 path: "",
-                element: <Home/>,
+                element: <Home />,
             },
             {
                 path: "Chat/:chatId",
-                element: <ChatPage/>,
+                element: <ChatPage />,
             },
             {
                 path: "Chat",
-                element: <ChatPage/>,
+                element: <ChatPage />,
             },
             {
                 path: "SignUp",
-                element: <SignUp/>,
+                element: <SignUp />,
             },
         ],
     },
@@ -33,6 +34,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <RouterProvider router={router} />
     </React.StrictMode>
 );
