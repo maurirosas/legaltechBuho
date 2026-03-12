@@ -1276,7 +1276,8 @@ export const BenefitCard = styled.div`
       padding: 3rem 2rem;
       min-height: 600px;
       margin-top: -3rem;
-      margin-right: 1.5rem;
+      margin-left: 1.5rem;
+      margin-right: 0rem;
 
       h4 {
         font-size: clamp(5rem, 10vw, 7.5rem);
@@ -1288,7 +1289,7 @@ export const BenefitCard = styled.div`
     &:nth-child(2) {
       grid-column: 5 / 9;
       grid-row: 1;
-      transform: translate(-4.5rem, -2.8rem);
+      transform: translate(-3rem, -2.8rem);
       margin-left: -2rem;
       margin-right: -2rem;
     }
@@ -1297,7 +1298,7 @@ export const BenefitCard = styled.div`
     &:nth-child(3) {
       grid-column: 5 / 9;
       grid-row: 2;
-      transform: translate(-4.5rem, -0.3rem);
+      transform: translate(-3rem, -0.3rem);
       margin-left: -2rem;
       margin-right: -2rem;
     }
@@ -1309,7 +1310,7 @@ export const BenefitCard = styled.div`
       padding: 3rem 2rem;
       min-height: 600px;
       margin-top: -3rem;
-      margin-left: 1.5rem;
+      margin-left: 6rem;
 
       h4 {
         font-size: clamp(5rem, 10vw, 7.5rem);

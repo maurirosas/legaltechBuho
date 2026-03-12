@@ -6,7 +6,12 @@ import logoBlack from "../assets/logo-black.svg";
 import logoWhite from "../assets/logo-white.svg";
 import { ResponsiveNavLinks, ResponsiveNavLink, ResponsiveNavButton, NavToggleButton } from "../styles/HomeNav.styled";
 
-
+import car1 from "../assets/carousel/1.avif";
+import car2 from "../assets/carousel/2.avif";
+import car3 from "../assets/carousel/3.avif";
+import car4 from "../assets/carousel/4.avif";
+import car5 from "../assets/carousel/5.avif";
+import car6 from "../assets/carousel/6.avif";
 
 import {
   HomeContainer,
@@ -476,12 +481,12 @@ export const Home = () => {
           {Array(4).fill(null).map((_, setIndex) => (
             <React.Fragment key={`set-${setIndex}`}>
               {[
-                { name: 'Clientes', image: 'src/assets/carousel/1.avif' },
-                { name: 'Estudiantes', image: '/src/assets/carousel/2.avif' },
-                { name: 'Docencia', image: 'src/assets/carousel/3.avif' },
-                { name: 'Equipos Juridicos', image: 'src/assets/carousel/4.avif' },
-                { name: 'Investigadores', image: 'src/assets/carousel/5.avif' },
-                { name: 'Profesionales', image: 'src/assets/carousel/6.avif' },
+                { name: 'Clientes', image: car1 },
+                { name: 'Estudiantes', image: car2 },
+                { name: 'Docencia', image: car3 },
+                { name: 'Equipos Juridicos', image: car4 },
+                { name: 'Investigadores', image: car5 },
+                { name: 'Profesionales', image: car6 },
               ].map((logo, index) => (
                 <LogoCard key={`logo-${setIndex}-${index}`}>
                   <LogoCardContainer>
